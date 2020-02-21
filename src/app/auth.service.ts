@@ -1,9 +1,66 @@
 import { Injectable } from '@angular/core';
-
-@Injectable({
-  providedIn: 'root'
-})
+import {Http, Headers, Response, URLSearchParams} from '@angular/http';
+import { Observable } from 'rxjs';
+import { map, filter, catchError, mergeMap } from 'rxjs/operators';
+@Injectable()
 export class AuthService {
 
-  constructor() { }
+  public token: string;
+
+  constructor(private http: Http) {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    this.token = currentUser && currentUser.token;
+  }
+
+
+
+  login(email: string, password: string, app: string): Observable<boolean> {
+    let headers = new Headers();
+    headers.append('content-type', 'application/json');
+    let body = new URLSearchParams();
+    body.set('email', email);
+    body.set('password', password);
+    body.set('app', app);
+
+
+    return this.http.post('https://dev.tuten.cl/TutenREST/rest/user/testapis%40tuten.cl', body ,{headers : headers} ).pipe(
+      map((response: Response) => {
+        console.log(response.json())
+        // login successful if there's a jwt token in the response
+        const token = response.json() && response.json().token;
+        if (token) {
+          // set token property
+          this.token = token;
+
+          // store username and jwt token in local storage to keep user logged in between page refreshes
+          localStorage.setItem('currentUser', JSON.stringify({ username: email, token: token }));
+
+          // return true to indicate successful login
+          return true;
+        } else {
+          // return false to indicate failed login
+          return false;
+        }
+      }));//,catchError(err => of('error found')).subscribe(printResult);
+      //catchError(this.handelError)
+  }
+
+
+
+
+  logout(): void {
+    // clear token remove user from local storage to log user out
+    this.token = null;
+    localStorage.removeItem('currentUser');
+  }
+
+  private handelError(error: Response) {
+
+    return Observable.throw(error.json() || 'server error');
+
+  }
+
+
+
+
 }
