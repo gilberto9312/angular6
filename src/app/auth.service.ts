@@ -17,13 +17,16 @@ export class AuthService {
   login(email: string, password: string, app: string): Observable<boolean> {
     let headers = new Headers();
     headers.append('content-type', 'application/json');
+    headers.append('Accept', 'application/json');
+    headers.append('Password', `${password}`);
+    headers.append('App', `${app}`);
     let body = new URLSearchParams();
-    body.set('email', email);
+    /* body.set('email', email);
     body.set('password', password);
-    body.set('app', app);
+    body.set('app', app); */
 
 
-    return this.http.post('https://dev.tuten.cl/TutenREST/rest/user/testapis%40tuten.cl', body ,{headers : headers} ).pipe(
+    return this.http.put('https://dev.tuten.cl/TutenREST/rest/user/' + email, body ,{headers : headers} ).pipe(
       map((response: Response) => {
         console.log(response.json())
         // login successful if there's a jwt token in the response
