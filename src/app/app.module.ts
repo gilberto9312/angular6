@@ -8,6 +8,7 @@ import {AuthService} from './auth.service';
 import {AuthGuard} from './auth.guard';
 import {Routes, RouterModule} from '@angular/router';
 import { HttpModule } from '@angular/http';
+import { DatosComponent } from './datos/datos.component';
 
 const routes: Routes = [
   {path: '', component : AppComponent},
@@ -20,6 +21,7 @@ const routes: Routes = [
   declarations: [
     AppComponent,
     LoginComponent,
+    DatosComponent,
   ],
   imports: [
     BrowserModule,

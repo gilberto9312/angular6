@@ -9,7 +9,7 @@ export class AuthService {
 
   constructor(private http: Http) {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    this.token = currentUser && currentUser.token;
+    this.token = currentUser;
   }
 
 
@@ -28,15 +28,15 @@ export class AuthService {
 
     return this.http.put('https://dev.tuten.cl/TutenREST/rest/user/' + email, body ,{headers : headers} ).pipe(
       map((response: Response) => {
-        console.log(response.json())
+        //console.log(response.json().sessionTokenBck)
         // login successful if there's a jwt token in the response
-        const token = response.json() && response.json().token;
+        const token = response.json().sessionTokenBck
         if (token) {
           // set token property
           this.token = token;
 
           // store username and jwt token in local storage to keep user logged in between page refreshes
-          localStorage.setItem('currentUser', JSON.stringify({ username: email, token: token }));
+          localStorage.setItem('currentUser', JSON.stringify({ token: token }));
 
           // return true to indicate successful login
           return true;
