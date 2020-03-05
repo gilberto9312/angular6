@@ -10,12 +10,12 @@ import {IDatos} from './datos'
 })
 export class DatosService {
 
-  const uri= 'https://dev.tuten.cl/TutenREST/rest/user/';
+  //const uri= 'https://dev.tuten.cl/TutenREST/rest/user/';
   constructor(private http: Http, private authenticationService: AuthService  ) {}
 
   getData(app:string,user:string,current:boolean){
     
-    const headers = new Headers();
+    let headers = new Headers();
     headers.append('content-type', 'application/json');
     headers.append('Accept', 'application/json');
     headers.append('App', `${app}`);
@@ -23,7 +23,11 @@ export class DatosService {
     headers.append('Token', this.authenticationService.token );
 
 
-    return  this.http.get(this.uri+user+'bookings?current='+current , {headers : headers}).pipe(map(res => <IDatos[]> res.json() ))
+    return  this.http.get('https://dev.tuten.cl/TutenREST/rest/user/'+user+'/bookings?current='+current , {headers : headers}).pipe(
+      map((response: Response)=>{
+        return response.json();
+      })
+    );
   }
 
 }

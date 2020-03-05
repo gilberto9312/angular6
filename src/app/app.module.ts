@@ -8,11 +8,13 @@ import {AuthService} from './auth.service';
 import {AuthGuard} from './auth.guard';
 import {Routes, RouterModule} from '@angular/router';
 import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { DatosComponent } from './datos/datos.component';
 
 const routes: Routes = [
   {path: '', component : AppComponent},
-  {path: 'login', component : LoginComponent}
+  {path: 'login', component : LoginComponent},
+  {path: 'datos', component : DatosComponent}
 
   ];
 
@@ -27,6 +29,7 @@ const routes: Routes = [
     BrowserModule,
     RouterModule.forRoot( routes ),
     HttpModule,
+    HttpClientModule,
     FormsModule
   ],
   providers: [AuthService, AuthGuard],

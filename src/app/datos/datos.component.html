@@ -1,3 +1,50 @@
-<p>
-  datos works!
-</p>
+<h1 class="text-center text-success">
+  Datos
+</h1>
+
+  <div class="form-group">
+    <label >Current:</label>
+    <input type="text" class="form-control" name="current" required="required"   [(ngModel)]="current"   >
+  </div>
+  
+
+  <div class="form-group">
+    <label >user:</label>
+    <input type="text" class="form-control" name="user" required="required"   [(ngModel)]="user"   >
+  </div>
+
+  <div class="form-group">
+    <label >App:</label>
+    <input type="text" class="form-control" name="app" required="required"   [(ngModel)]="app"   >
+  </div>
+
+  <button (click)="getData()" class="btn btn-primary" >Consulta</button>
+
+  <table>
+    <tr>
+      <th>BookingId</th>
+      <th>Cliente</th>
+      <th>Fecha de Creación</th>
+      <th>Dirección</th>
+      <th>Precio</th>
+    </tr>
+    <tr *ngFor="let dato of datos">
+      <td>
+        {{ dato.bookingId }}
+      </td>
+      <td>
+        {{dato.tutenUserClient.firstName}} {{dato.tutenUserClient.lastName}}
+      </td>
+      <td>
+        {{dato.bookingTime | date:'yyyy-MM-dd'}}
+      </td>
+      <td>
+        {{dato.locationId.streetAddress}}
+      </td>
+      <td>
+        {{dato.bookingPrice}}
+      </td>
+
+    </tr>
+  </table>
+  

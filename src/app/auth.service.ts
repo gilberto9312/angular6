@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import {Http, Headers, Response, URLSearchParams} from '@angular/http';
 import { Observable } from 'rxjs';
-import { map, filter, catchError, mergeMap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
+import {Router} from '@angular/router';
 @Injectable()
 export class AuthService {
 
   public token: string;
 
-  constructor(private http: Http) {
+  constructor(private http: Http,private router: Router) {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    this.token = currentUser;
+    this.token = currentUser.token;
   }
 
 
@@ -39,6 +40,7 @@ export class AuthService {
           localStorage.setItem('currentUser', JSON.stringify({ token: token }));
 
           // return true to indicate successful login
+          this.router.navigateByUrl('/datos');
           return true;
         } else {
           // return false to indicate failed login

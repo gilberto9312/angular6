@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DatosService } from '../datos.service';
+import {IDatos} from '../datos'
 
 @Component({
   selector: 'app-datos',
@@ -8,17 +9,20 @@ import { DatosService } from '../datos.service';
 })
 export class DatosComponent implements OnInit {
 
-  data: Array<Data>= [] ;
+  app:string;
+  user:string;
+  current:boolean;
+  
+
+  constructor(private _DatosService: DatosService) { }
+  datos: any ;
   errorMessage: string;
-  constructor(private _datoService: DatosService ) { }
 
-  getData() {
-  this._datoService.getData().subscribe(
-    posts => this.posts = posts, error => this.errorMessage = <any> error
-  );
+  getData(){
+    this._DatosService.getData(this.app,this.user,this.current).subscribe(
+      datos => this.datos = datos, error => this.errorMessage = <any> error
+    );
   }
-
-  constructor() { }
 
   ngOnInit() {
   }
